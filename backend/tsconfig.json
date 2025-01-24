@@ -5,7 +5,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "allowJs": true,
   },
   "include": ["*.ts", "app.js"], // Adjust to match the actual location of your .ts files
   "exclude": ["node_modules", "dist"]
