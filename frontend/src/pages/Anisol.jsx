@@ -40,7 +40,7 @@ const ContentGenerator = () => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [error, setError] = useState(null);
 
-  const API_URL = import.meta.env.REACT_APP_API_URL || "http://anisol-1.onrender.com/generate-content";
+  const API_URL = import.meta.env.REACT_APP_API_URL || "https://anisol-1.onrender.com/generate-content";
 
 
   const handleGenerate = async () => {
