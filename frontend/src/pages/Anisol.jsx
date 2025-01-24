@@ -14,9 +14,9 @@ import ReactMarkdown from "react-markdown";
 import Navbar from "../components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 
-
 const ContentGenerator = () => {
   const notify = () => toast.success('Parameters Applied Successfully.');
+
   const [preferences, setPreferences] = useState({
     tone: "professional",
     length: "medium",
@@ -35,13 +35,10 @@ const ContentGenerator = () => {
   const [content, setContent] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [currentKeyword, setCurrentKeyword] = useState("");
-  const [history, setHistory] = useState([]);
   const [copySuccess, setCopySuccess] = useState(false);
   const [error, setError] = useState(null);
 
   const API_URL = import.meta.env.REACT_APP_API_URL || "https://anisol.onrender.com/generate-content";
-
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -59,15 +56,6 @@ const ContentGenerator = () => {
       });
 
       setContent(response.data);
-      setHistory(prev => [
-        {
-          id: Date.now().toString(),
-          prompt,
-          content: response.data,
-          preferences,
-        },
-        ...prev,
-      ]);
     } catch (err) {
       console.error("Error generating content:", err);
       setError(
@@ -94,16 +82,11 @@ const ContentGenerator = () => {
   const handleDownload = () => {
     if (content) {
       const element = document.createElement("a");
-      const file = new Blob(
-        [
-          `Title: ${content.title}\n\n${content.content}\n\nGenerated on: ${content.timestamp}
-          \nSEO Score: ${content.seoScore}
-          \nReadability Score: ${content.readabilityScore}
-          \nKeyword Density: ${content.keywordDensity}% 
-          \nWord Count: ${content.wordCount}`,
-        ],
-        { type: "text/plain" }
-      );
+      const file = new Blob([
+        `Title: ${content.title}\n\n${content.content}\n\nGenerated on: ${content.timestamp}\nSEO Score: ${content.seoScore}\nReadability Score: ${content.readabilityScore}\nKeyword Density: ${content.keywordDensity}% \nWord Count: ${content.wordCount}`,
+      ], {
+        type: "text/plain"
+      });
       element.href = URL.createObjectURL(file);
       element.download = `content-${Date.now()}.txt`;
       document.body.appendChild(element);
@@ -128,7 +111,7 @@ const ContentGenerator = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-tl from-red-400 to-indigo-400 py-20">
-        <Navbar />
+      <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
