@@ -78,7 +78,7 @@ app.post('/generate-content', async (req, res) => {
       'formal': 'academic and structured',
     };
 
-    const aiPrompt = `Generate a ${lengthMap[preferences.length]} ${toneMap[preferences.tone]} 
+    const aiPrompt = `Generate a ${toneMap[preferences.tone]} 
       ${preferences.contentType} for the ${preferences.industry} industry about: ${prompt}. 
       ${preferences.keywords.length > 0 ? `Incorporate these keywords naturally: ${preferences.keywords.join(', ')}` : ''}
       
