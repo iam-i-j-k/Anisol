@@ -1,11 +1,11 @@
 import React from 'react'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
 import Start from './pages/Start'
 import Anisol from './pages/Anisol'
 import { Routes, Route } from'react-router-dom'
+import { SignUp, SignIn } from '@clerk/clerk-react'
 
 const App = () => {
+
   return (
     <div>
       <Routes>

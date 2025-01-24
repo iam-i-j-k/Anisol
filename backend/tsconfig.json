@@ -7,6 +7,6 @@
     "skipLibCheck": true,
     "outDir": "./dist"
   },
-  "include": ["*.ts"], // Adjust to match the actual location of your .ts files
+  "include": ["*.ts", "app.js"], // Adjust to match the actual location of your .ts files
   "exclude": ["node_modules", "dist"]
 }

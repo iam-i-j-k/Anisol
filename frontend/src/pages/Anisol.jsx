@@ -12,8 +12,11 @@ import {
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import Navbar from "../components/Navbar";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const ContentGenerator = () => {
+  const notify = () => toast.success('Parameters Applied Successfully.');
   const [preferences, setPreferences] = useState({
     tone: "professional",
     length: "medium",
@@ -39,22 +42,6 @@ const ContentGenerator = () => {
 
   const API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:5000/generate-content";
 
-  const handleAddKeyword = () => {
-    if (currentKeyword && !preferences.keywords.includes(currentKeyword)) {
-      setPreferences(prev => ({
-        ...prev,
-        keywords: [...prev.keywords, currentKeyword]
-      }));
-      setCurrentKeyword("");
-    }
-  };
-
-  const handleRemoveKeyword = (keyword) => {
-    setPreferences(prev => ({
-      ...prev,
-      keywords: prev.keywords.filter(k => k !== keyword)
-    }));
-  };
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -136,6 +123,7 @@ const ContentGenerator = () => {
         .filter(k => k),
       industry: parameters.topic,
     }));
+    notify();
   };
 
   return (
@@ -279,10 +267,11 @@ const ContentGenerator = () => {
               </div>
               <button
                 onClick={applyParameters}
-                className="mt-4 w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700"
+                className="cursor-pointer mt-4 w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700"
               >
                 Apply Parameters
               </button>
+              <Toaster />
             </div>
           </div>
         </div>

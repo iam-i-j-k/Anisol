@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { z } from 'zod';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { z } = require('zod');
 
 dotenv.config();
 
@@ -13,29 +13,11 @@ const ContentPreferencesSchema = z.object({
   industry: z.string(),
   contentType: z.string(),
 });
-  
+
 const GenerateContentSchema = z.object({
   prompt: z.string(),
   preferences: ContentPreferencesSchema,
 });
-
-interface ContentPreferences {
-  tone: 'professional' | 'casual' | 'friendly' | 'formal';
-  length: 'short' | 'medium' | 'long';
-  keywords: string[];
-  industry: string;
-  contentType: string;
-}
-
-interface GeneratedContent {
-  title: string;
-  content: string;
-  seoScore: number;
-  readabilityScore: number;
-  keywordDensity: number;
-  wordCount: number;
-  timestamp: Date;
-}
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -45,13 +27,9 @@ app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-function calculateScores(content: string, keywords: string[]): { 
-  seoScore: number, 
-  readabilityScore: number, 
-  keywordDensity: number 
-} {
+function calculateScores(content, keywords) {
   const wordCount = content.split(/\s+/).length;
-  const keywordCount = keywords.reduce((count, keyword) => 
+  const keywordCount = keywords.reduce((count, keyword) =>
     count + (content.toLowerCase().split(keyword.toLowerCase()).length - 1), 0);
   
   const keywordDensity = parseFloat(((keywordCount / wordCount) * 100).toFixed(2));
@@ -61,11 +39,11 @@ function calculateScores(content: string, keywords: string[]): {
   return {
     seoScore: Math.round(seoScore),
     readabilityScore: Math.round(readabilityScore),
-    keywordDensity: parseFloat(keywordDensity.toFixed(2))
+    keywordDensity: parseFloat(keywordDensity.toFixed(2)),
   };
 }
 
-function formatContent(content: string): string {
+function formatContent(content) {
   const paragraphs = content.split(/\n\n/).map(p => p.trim()).filter(p => p);
   
   const formattedContent = paragraphs.map(paragraph => {
@@ -81,29 +59,23 @@ function formatContent(content: string): string {
   return formattedContent;
 }
 
-app.post('/generate-content', async (req: Request, res: Response) => {
+app.post('/generate-content', async (req, res) => {
   try {
     console.log('Received request:', req.body); // Log the incoming request for debugging
 
-    const { 
-      prompt, 
-      preferences 
-    }: { 
-      prompt: string, 
-      preferences: ContentPreferences 
-    } = req.body;
+    const { prompt, preferences } = req.body;
 
-    const lengthMap: Record<'short' | 'medium' | 'long', string> = {
+    const lengthMap = {
       'short': 'concise and brief',
       'medium': 'balanced and informative',
-      'long': 'comprehensive and detailed'
+      'long': 'comprehensive and detailed',
     };
     
-    const toneMap: Record<'professional' | 'casual' | 'friendly' | 'formal', string> = {
+    const toneMap = {
       'professional': 'formal and authoritative',
       'casual': 'conversational and friendly',
       'friendly': 'warm and approachable',
-      'formal': 'academic and structured'
+      'formal': 'academic and structured',
     };
 
     const aiPrompt = `Generate a ${lengthMap[preferences.length]} ${toneMap[preferences.tone]} 
@@ -133,12 +105,12 @@ app.post('/generate-content', async (req: Request, res: Response) => {
       preferences.keywords
     );
 
-    const generatedContent: GeneratedContent = {
+    const generatedContent = {
       title: `${preferences.industry.charAt(0).toUpperCase() + preferences.industry.slice(1)} ${preferences.contentType.charAt(0).toUpperCase() + preferences.contentType.slice(1)}`,
       content: formattedContent,
       ...contentMetrics,
       wordCount: formattedContent.split(/\s+/).length,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     res.json(generatedContent);
@@ -155,4 +127,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-export default app;
+module.exports = app;
