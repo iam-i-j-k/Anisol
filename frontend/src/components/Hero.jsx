@@ -5,7 +5,7 @@ import { useUser,
   SignInButton,
  } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { BackgroundLines } from "../ui/background-lines"
+import { BackgroundLines } from "../components/ui/background-lines"
 
 const Hero = () => {
 
