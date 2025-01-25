@@ -8,6 +8,8 @@ import {
   Download,
   CheckCircle2,
   AlertCircle,
+  Menu,
+  X,
 } from "lucide-react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
@@ -37,6 +39,9 @@ const ContentGenerator = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  const [selectedContent, setSelectedContent] = useState(null);
 
   const API_URL = import.meta.env.REACT_APP_API_URL || "https://anisol.onrender.com/generate-content";
 
@@ -56,6 +61,7 @@ const ContentGenerator = () => {
       });
 
       setContent(response.data);
+      setHistory([...history, response.data]);
     } catch (err) {
       console.error("Error generating content:", err);
       setError(
@@ -107,6 +113,15 @@ const ContentGenerator = () => {
       industry: parameters.topic,
     }));
     notify();
+  };
+
+  const toggleHistoryPanel = () => {
+    setIsHistoryVisible(!isHistoryVisible);
+  };
+
+  const handleTabClick = (content) => {
+    setSelectedContent(content);
+    setIsHistoryVisible(false);
   };
 
   return (
@@ -173,6 +188,16 @@ const ContentGenerator = () => {
                 </ReactMarkdown>
               </div>
             )}
+            <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
+              <h2>Generated Content History</h2>
+              <ul>
+                {history.map((content, index) => (
+                  <li key={index}>
+                    <ReactMarkdown>{content.content}</ReactMarkdown>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
@@ -259,6 +284,57 @@ const ContentGenerator = () => {
           </div>
         </div>
       </main>
+
+      {isHistoryVisible ? (
+        <div className="fixed z-[100] top-0 left-0 w-1/5 h-full bg-white shadow-lg p-4 overflow-y-auto">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Generated Content History</h2>
+            <button onClick={toggleHistoryPanel} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Close history panel">
+              <X className="cursor-pointer h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+          <ul>
+            {history.map((content, index) => (
+              <li key={index} className="mb-2 cursor-pointer" onClick={() => handleTabClick(content)}>
+                <div className="text-blue-500 hover:underline">{content.title || `Content ${index + 1}`}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <button onClick={toggleHistoryPanel} className="z-[100] fixed top-4 left-4 p-2 bg-gray-100 rounded-lg" aria-label="Toggle history panel">
+        <Menu className="cursor-pointer h-5 w-5 text-gray-600" />
+      </button>
+      )}
+
+      {selectedContent && (
+        <div className="bg-white rounded-xl shadow-sm p-6 h-auto overflow-auto">
+          <h3 className="text-lg font-semibold">{selectedContent.title}</h3>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={handleCopyContent}
+              className="p-2 hover:bg-gray-100 rounded-lg"
+              aria-label="Copy content"
+            >
+              {copySuccess ? (
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+              ) : (
+                <Copy className="h-5 w-5 text-gray-600" />
+              )}
+            </button>
+            <button
+              onClick={handleDownload}
+              className="p-2 hover:bg-gray-100 rounded-lg"
+              aria-label="Download content"
+            >
+              <Download className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+          <ReactMarkdown className="prose mt-4 text-wrap ">
+            {selectedContent.content}
+          </ReactMarkdown>
+        </div>
+      )}
     </div>
   );
 };
