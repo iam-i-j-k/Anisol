@@ -124,13 +124,14 @@ app.post('/generate-content', async (req, res) => {
   }
 });
 
-app.use(express.static('dist', {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-    }
-  },
-}));
+app.use(express.static('dist'));
+
+app.use((req, res, next) => {
+  if (req.url.endsWith('.css')) {
+    res.setHeader('Content-Type', 'text/css');
+  }
+  next();
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
