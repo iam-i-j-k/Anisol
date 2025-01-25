@@ -20,6 +20,7 @@ const GenerateContentSchema = z.object({
 });
 
 const app = express();
+const path = require('path');
 const port = process.env.PORT || 5000;
 
 app.use(cors());
