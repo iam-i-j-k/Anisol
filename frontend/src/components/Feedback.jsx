@@ -29,7 +29,7 @@ const Feedback = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
+    <div className="bg-white rounded-xl shadow-sm p-6 m-6">
       <h2 className="text-lg font-semibold">Submit Feedback</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex items-center space-x-2">
