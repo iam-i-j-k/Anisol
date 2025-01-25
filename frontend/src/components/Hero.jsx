@@ -5,6 +5,9 @@ import { useUser,
   SignInButton,
  } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
+import { BackgroundLines } from "./ui/Background-lines"
+import { HeroHighlight } from "./ui/hero-highlight"
+import { BackgroundGradientAnimation } from "./ui/background-gradient-animation"
 
 const Hero = () => {
 
@@ -24,17 +27,13 @@ const Hero = () => {
 
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 text-white overflow-hidden">
-      <div className="relative w-screen py-24 sm:py-32">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="animate-float-slow absolute -top-16 -left-16 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-          <div className="animate-float absolute top-36 -right-16 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-          <div className="animate-float-slow absolute -bottom-16 left-36 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-        </div>
-        <div className="relative text-center py-10">
-          <h1 className="text-4xl sm:text-5xl md:text-8xl font-semibold font-onest tracking-tight mb-4 animate-fade-in-up text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-indigo-400">
-            Welcome to Anisol AI
+    <div className="w-full h-full text-white overflow-hidden font-onest">
+       <div className="relative w-screen flex flex-col items-center justify-center ">
+        <BackgroundLines />
+       {/* <BackgroundGradientAnimation /> */}
+        <div className="absolute top-20 text-center py-10">
+          <h1 className="text-4xl sm:text-5xl md:text-[12rem] font-light font-onest tracking-tight mb-4 animate-fade-in-up text-white">
+           Anisol AI
           </h1>
           <p className="text-xl sm:text-2xl md:text-3xl mb-8 animate-fade-in-up animation-delay-200">
             Your intelligent content generation companion
@@ -46,13 +45,13 @@ const Hero = () => {
           <div className="flex justify-center space-x-4 animate-fade-in-up animation-delay-600">
             
             { isSignedIn ? (
-              <button onClick={()=>navigate('/anisol')} className="cursor-pointer bg-transparent hover:bg-blue-600 text-white border-2 border-white font-semibold font-onest py-2 px-5 rounded-full">
+              <button onClick={()=>navigate('/anisol')} className="cursor-pointer bg-white text-black border-2 border-white font-semibold font-onest py-2 px-5 rounded-full">
               Get Started
             </button>
             ) : (
               <SignedOut>
               <SignInButton mode="modal">
-                <button className="cursor-pointer bg-transparent hover:bg-blue-600 text-white border-2 border-white font-semibold font-onest py-2 px-5 rounded-full">
+                <button className="cursor-pointer bg-white text-black border-2 border-white font-semibold font-onest py-2 px-5 rounded-full">
                   Get Started
                 </button>
               </SignInButton>
@@ -60,7 +59,7 @@ const Hero = () => {
             ) }
           </div>
         </div>
-      </div>
+      </div> 
     </div>
   )
 }

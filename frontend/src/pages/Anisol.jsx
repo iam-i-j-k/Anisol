@@ -15,6 +15,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import Navbar from "../components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
+import Feedback from "../components/Feedback";
 
 const ContentGenerator = () => {
   const notify = () => toast.success('Parameters Applied Successfully.');
@@ -125,14 +126,14 @@ const ContentGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tl from-red-400 to-indigo-400 py-20">
+    <div className="min-h-screen bg-black py-20">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4 flex items-center">
-                <Wand2 className="h-5 w-5 mr-2 text-indigo-600" />
+                <Wand2 className="h-5 w-5 mr-2 text-black" />
                 Content Generator
               </h2>
               {error && (
@@ -142,16 +143,16 @@ const ContentGenerator = () => {
                 </div>
               )}
               <textarea
-                className="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full h-32 p-3 text-black border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                 placeholder="Describe the content you want to generate..."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />
               <button
-                className={`mt-4 w-full py-2 px-4 rounded-lg text-white font-medium ${
+                className={`mt-4 cursor-pointer w-full py-2 px-4 rounded-lg text-white font-medium ${
                   isGenerating
-                    ? "bg-indigo-400 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700"
+                    ? "bg-black cursor-not-allowed"
+                    : "bg-black "
                 }`}
                 onClick={handleGenerate}
                 disabled={isGenerating}
@@ -202,7 +203,7 @@ const ContentGenerator = () => {
 
           <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
             <h2 className="text-lg font-semibold flex items-center">
-              <Settings className="h-5 w-5 mr-2 text-indigo-600" />
+              <Settings className="h-5 w-5 mr-2 text-black" />
               Content Parameters
             </h2>
             <div className="space-y-4">
@@ -226,7 +227,7 @@ const ContentGenerator = () => {
                   Tone
                 </label>
                 <select
-                  className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                   value={parameters.tone}
                   onChange={(e) =>
                     setParameters({ ...parameters, tone: e.target.value })
@@ -244,7 +245,7 @@ const ContentGenerator = () => {
                   Length
                 </label>
                 <select
-                  className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                   value={parameters.length}
                   onChange={(e) =>
                     setParameters({ ...parameters, length: e.target.value })
@@ -275,7 +276,7 @@ const ContentGenerator = () => {
               </div>
               <button
                 onClick={applyParameters}
-                className="cursor-pointer mt-4 w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700"
+                className="cursor-pointer mt-4 w-full py-2 px-4 bg-black text-white font-medium rounded-lg"
               >
                 Apply Parameters
               </button>
@@ -335,6 +336,7 @@ const ContentGenerator = () => {
           </ReactMarkdown>
         </div>
       )}
+      <Feedback />
     </div>
   );
 };
