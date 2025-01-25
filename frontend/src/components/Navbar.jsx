@@ -1,6 +1,5 @@
 import React from "react";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import Lottie from 'lottie-react';
 
 const Navbar = () => {
   return (
