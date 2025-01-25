@@ -5,9 +5,7 @@ import { useUser,
   SignInButton,
  } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
-import { BackgroundLines } from "./ui/Background-lines"
-import { HeroHighlight } from "./ui/hero-highlight"
-import { BackgroundGradientAnimation } from "./ui/background-gradient-animation"
+import { BackgroundLines } from "../ui/background-lines"
 
 const Hero = () => {
 
