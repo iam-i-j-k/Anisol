@@ -7,4 +7,9 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
   ],
+  build: {
+    rollupOptions: {
+      external: ['framer-motion', 'clsx', 'tailwind-merge'],
+    },
+  },
 })

@@ -47,20 +47,23 @@ const Content = () => {
         </div>
         <br />
         <br />
-        <div className="flex">
-          <div>
-            <h1 className="p-20 text-6xl font-bold w-[250%]">Who's it for?</h1>
-          </div>
-          <div className="b-2 border-black-200 border rounded-lg text-4xl">
-            <h1 className="p-5">Content Marketer</h1>
-          </div>
-            <p className="text-2xl p-5">
-              The Content Idea Generator is a valuable tool for the Content
-              Marketer as it quickly and easily generates unique content ideas
-              that they can use to create engaging blog posts and social media
-              updates to attract and retain their target audience.
-            </p>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-20 p-10">
+  <div className="flex-shrink-0 lg:w-1/3">
+    <h1 className="text-4xl lg:text-6xl font-bold">
+      Who's it for?
+    </h1>
+  </div>
+
+  <div className="flex flex-col gap-5 lg:w-2/3 bg-white p-6 border border-gray-300 rounded-lg shadow-lg">
+    <h2 className="text-3xl font-semibold border-b pb-2">
+      Content Marketer
+    </h2>
+    <p className="text-lg text-gray-700 leading-relaxed">
+      The Content Idea Generator is a valuable tool for the Content Marketer as it quickly and easily generates unique content ideas that they can use to create engaging blog posts and social media updates to attract and retain their target audience.
+    </p>
+  </div>
         </div>
+
       </div>
     </div>
   )
